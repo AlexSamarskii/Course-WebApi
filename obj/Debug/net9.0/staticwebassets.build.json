@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "kVBkbfEadbSO21bUhB5kCtmtOmQ8c+1+rzr8Zr+sJ7s=",
+  "Source": "T1project.CoursesWebAPI",
+  "BasePath": "_content/T1project.CoursesWebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

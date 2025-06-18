@@ -1,0 +1,40 @@
+## .NET build files
+bin/
+obj/
+out/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider files
+.idea/
+*.sln.iml
+
+## VS Code settings
+.vscode/
+
+## ASP.NET secrets
+**/secrets.json
+
+## Logs
+*.log
+logs/
+
+## Entity Framework
+Migrations/
+
+## Docker
+**/docker-compose.override.yml
+*.pid
+
+## OS-specific files
+.DS_Store
+Thumbs.db
+
+## Env files
+.env
+
+## Test res
