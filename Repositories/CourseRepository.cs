@@ -1,6 +1,4 @@
-﻿
-
-public class CourseRepository : ICourseRepository
+﻿public class CourseRepository : ICourseRepository
 {
     private readonly CourseDbContext _context;
 
@@ -11,13 +9,13 @@ public class CourseRepository : ICourseRepository
 
     public async Task<Student> AddStudentAsync(Guid courseId, Student student)
     {
-        var course = await _context.Courses.Include(c => c.Students)
-                                           .FirstOrDefaultAsync(c => c.Id == courseId);
+        var course = await _context.Courses.FindAsync(courseId);
         if (course == null)
             throw new KeyNotFoundException("Course not found");
 
-        course.Students.Add(student);
-        await _context.SaveChangesAsync();
+        student.CourseId = courseId;
+        _context.Students.Add(student);
+        await _context.SaveChangesAsync(); 
         return student;
     }
 

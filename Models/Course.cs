@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-public class Course
+﻿public class Course
 {
     [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
@@ -8,5 +6,5 @@ public class Course
     [Required]
     public string Name { get; set; } = string.Empty;
 
-    public ICollection<Student> Students { get; set; } = new List<Student>();
+    public List<Student> Students { get; set; } = new List<Student>();
 }
