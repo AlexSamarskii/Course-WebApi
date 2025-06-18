@@ -2,43 +2,68 @@
 
 public class CourseRepository : ICourseRepository
 {
-    public Task<Student> AddStudentAsync(Guid courseId, Student student)
+    private readonly CourseDbContext _context;
+
+    public CourseRepository(CourseDbContext context)
     {
-        throw new NotImplementedException();
+        _context = context;
     }
 
-    public Task DeleteCourseAsync(Guid courseId)
+    public async Task<Student> AddStudentAsync(Guid courseId, Student student)
     {
-        throw new NotImplementedException();
+        var course = await _context.Courses.Include(c => c.Students)
+                                           .FirstOrDefaultAsync(c => c.Id == courseId);
+        if (course == null)
+            throw new KeyNotFoundException("Course not found");
+
+        course.Students.Add(student);
+        await _context.SaveChangesAsync();
+        return student;
+    }
+
+    public async Task DeleteCourseAsync(Guid courseId)
+    {
+        var courseFromDb = await _context.Courses.FindAsync(courseId);
+        if (courseFromDb == null) return;
+        _context.Courses.Remove(courseFromDb);
+    }
+
+    public async Task<Course?> GetCourseAsync(Guid courseId) =>
+        await _context.Courses.Include(c => c.Students)
+                              .FirstOrDefaultAsync(c => c.Id == courseId);
+
+    public async Task<List<Course>> GetCoursesAsync() =>
+        await _context.Courses.Include(c => c.Students).ToListAsync();
+
+    public async Task InsertCourseAsync(Course course) =>
+        await _context.Courses.AddAsync(course);
+
+    public Task SaveAsync() => _context.SaveChangesAsync();
+
+    public async Task UpdateCourseAsync(Course course)
+    {
+        var courseFromDb = await _context.Courses.FindAsync(course.Id);
+        if (courseFromDb == null) return;
+
+        courseFromDb.Name = course.Name;
+    }
+
+    private bool _disposed = false;
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                _context.Dispose();
+            }
+            _disposed = true;
+        }
     }
 
     public void Dispose()
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<Course?> GetCourseAsync(Guid courseId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<List<Course>> GetCoursesAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task InsertCourseAsync(Course course)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task SaveAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateCourseAsync(Course course)
-    {
-        throw new NotImplementedException();
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }
