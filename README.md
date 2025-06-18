@@ -12,7 +12,7 @@ API позволяет создавать и получать курсы, а т�
 
 ## Технологии
 
-- ASP.NET Core (.NET 7 Minimal API)  
+- ASP.NET Core (.NET 8 Minimal API)  
 - Entity Framework Core (PostgreSQL)  
 - PostgreSQL  
 - Swagger (OpenAPI)  
